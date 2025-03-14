@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .dashboard-container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .slide-card {
+            background: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .slide-card:hover {
+            transform: scale(1.05);
+        }
+        .slide-thumbnail {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        .new-slide {
+            background: #007BFF;
+            color: white;
+            padding: 20px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .popup input {
+            margin: 10px 0;
+        }
+        .popup button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Teacher Dashboard</h1>
+        <div class="grid-container" id="slidesGrid">
+            <div class="slide-card new-slide" onclick="showPopup()">+ New Slide</div>
+        </div>
+    </div>
+    
+    <div class="popup" id="uploadPopup">
+        <h2>Upload Your Slide</h2>
+        <input type="file" id="slideUpload" accept=".ppt,.pptx">
+        <br>
+        <button onclick="uploadSlide()">Upload</button>
+        <button onclick="closePopup()">Cancel</button>
+    </div>
+    
+    <script>
+        function showPopup() {
+            document.getElementById('uploadPopup').style.display = 'block';
+        }
+        
+        function closePopup() {
+            document.getElementById('uploadPopup').style.display = 'none';
+        }
+        
+        function uploadSlide() {
+            let fileInput = document.getElementById('slideUpload');
+            if (fileInput.files.length > 0) {
+                let file = fileInput.files[0];
+                let fileName = file.name;
+                let slidesGrid = document.getElementById('slidesGrid');
+                let newSlide = document.createElement('div');
+                newSlide.className = 'slide-card';
+                newSlide.onclick = function() { window.location.href = 'startsession.html'; };
+                
+                let thumbnail = document.createElement('img');
+                thumbnail.className = 'slide-thumbnail';
+                thumbnail.src = 'default-thumbnail.jpg'; // Placeholder image since extracting the first slide preview requires backend processing.
+                
+                let slideTitle = document.createElement('p');
+                slideTitle.innerText = fileName;
+                
+                newSlide.appendChild(thumbnail);
+                newSlide.appendChild(slideTitle);
+                slidesGrid.appendChild(newSlide);
+                closePopup();
+            } else {
+                alert('Please select a file to upload');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Session</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background: white;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .slide-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #007BFF;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .slide-item:hover {
+            background: #0056b3;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            text-align: center;
+        }
+        .session-info {
+            margin-bottom: 20px;
+        }
+        .join-code {
+            font-size: 24px;
+            font-weight: bold;
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            display: inline-block;
+            border-radius: 5px;
+        }
+        .students-joined {
+            margin-top: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .start-session {
+            padding: 15px 25px;
+            font-size: 18px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .start-session:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>Slides</h3>
+        <div id="slidesList">
+            <div class="slide-item">Slide 1</div>
+            <div class="slide-item">Slide 2</div>
+            <div class="slide-item">Slide 3</div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="session-info">
+            <p>Join Code:</p>
+            <div class="join-code" id="joinCode">ABC123</div>
+        </div>
+        <button class="start-session" onclick="startSession()">Start Session</button>
+        <div class="students-joined">
+            <h3>Students Joined</h3>
+            <ul id="studentsList"></ul>
+        </div>
+    </div>
+    
+    <script>
+        let students = [];
+        function startSession() {
+            alert("Session Started!");
+        }
+        function addStudent(name) {
+            students.push(name);
+            let studentList = document.getElementById("studentsList");
+            let studentItem = document.createElement("li");
+            studentItem.innerText = name;
+            studentList.appendChild(studentItem);
+        }
+        // Simulate students joining
+        setTimeout(() => addStudent("Alice"), 2000);
+        setTimeout(() => addStudent("Bob"), 4000);
+        setTimeout(() => addStudent("Charlie"), 6000);
+    </script>
+</body>
+</html>
