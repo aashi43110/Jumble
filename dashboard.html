@@ -9,45 +9,119 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f8f9fa;
+            background-color: #9DB79E; /* Vibrant sage green */
+            color: #2E4D30; /* Darker green for text */
         }
+
+        /* Header Bar */
+        .header {
+            background: #6F9773; /* Deep sage green */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        .header a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
         .dashboard-container {
             max-width: 1200px;
             margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
         }
-        h1 {
-            text-align: center;
+
+        .section {
+            background: #C1D7C0; /* Lighter sage */
+            padding: 20px;
+            height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2E4D30;
+        }
+
+        /* Layout for Create Session */
+        .create-session-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Independent "+" Button */
+        .create-button {
+            margin-top: 30px;
+            width: 300px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #6F9773;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 40px;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .create-button:hover {
+            background: #5C8260;
+        }
+
+        /* Create Session Box */
+        .create-session-box {
+            flex-grow: 1;
+            background: #C1D7C0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sessions Grid */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
-            padding: 20px;
+            padding-top: 10px;
         }
-        .slide-card {
-            background: white;
-            padding: 10px;
+
+        .session-card {
+            background: #6F9773;
+            color: white;
+            padding: 15px;
             text-align: center;
             border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, background 0.3s;
         }
-        .slide-card:hover {
+
+        .session-card:hover {
             transform: scale(1.05);
+            background: #5C8260;
         }
-        .slide-thumbnail {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 10px;
-        }
-        .new-slide {
-            background: #007BFF;
-            color: white;
-            padding: 20px;
-        }
+
+        /* Popup */
         .popup {
             display: none;
             position: fixed;
@@ -55,35 +129,85 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
+            width: 300px;
         }
+
+        .popup h2 {
+            margin-bottom: 15px;
+        }
+
         .popup input {
-            margin: 10px 0;
+            width: calc(100% - 16px); /* Matches button width */
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #6F9773;
+            border-radius: 5px;
+            text-align: center;
+            display: block; /* Ensures proper spacing */
+            margin-left: auto;
+            margin-right: auto;
         }
+
         .popup button {
+            width: 100%; /* Makes buttons match input width */
+            background: #6F9773;
+            color: white;
+            border: none;
+            padding: 10px;
             margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
         }
+
+        .popup button:hover {
+            background: #5C8260;
+        }
+
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <h1>Teacher Dashboard</h1>
-        <div class="grid-container" id="slidesGrid">
-            <div class="slide-card new-slide" onclick="showPopup()">+ New Slide</div>
+
+    <!-- Header Bar -->
+    <div class="header">
+        <div>
+            <a href="#">Home</a>
+            <a href="#">Sessions</a>
         </div>
+        <a href="#">Log Out</a>
     </div>
-    
+
+    <!-- Main Content -->
+    <div class="dashboard-container">
+
+        <!-- Create New Session -->
+        <div class="section">
+            <div class="section-title">Start a New Session</div>
+            <div class="create-session-container">
+                <div class="create-button" onclick="showPopup()">+</div>
+
+            </div>
+        </div>
+
+        <!-- Recent Sessions -->
+        <div class="section">
+            <div class="section-title">Recent Sessions</div>
+            <div class="grid-container" id="sessionsGrid"></div>
+        </div>
+
+    </div>
+
+    <!-- Popup for Upload -->
     <div class="popup" id="uploadPopup">
         <h2>Upload Your Slide</h2>
         <input type="file" id="slideUpload" accept=".ppt,.pptx">
-        <br>
         <button onclick="uploadSlide()">Upload</button>
         <button onclick="closePopup()">Cancel</button>
     </div>
-    
+
     <script>
         function showPopup() {
             document.getElementById('uploadPopup').style.display = 'block';
@@ -92,25 +216,20 @@
         function closePopup() {
             document.getElementById('uploadPopup').style.display = 'none';
         }
-        
+
         function uploadSlide() {
             let fileInput = document.getElementById('slideUpload');
             if (fileInput.files.length > 0) {
                 let file = fileInput.files[0];
                 let fileName = file.name;
-                let slidesGrid = document.getElementById('slidesGrid');
+                let slidesGrid = document.getElementById('sessionsGrid');
                 let newSlide = document.createElement('div');
-                newSlide.className = 'slide-card';
+                newSlide.className = 'session-card';
                 newSlide.onclick = function() { window.location.href = 'startsession.html'; };
-                
-                let thumbnail = document.createElement('img');
-                thumbnail.className = 'slide-thumbnail';
-                thumbnail.src = 'default-thumbnail.jpg'; // Placeholder image since extracting the first slide preview requires backend processing.
-                
+
                 let slideTitle = document.createElement('p');
                 slideTitle.innerText = fileName;
-                
-                newSlide.appendChild(thumbnail);
+
                 newSlide.appendChild(slideTitle);
                 slidesGrid.appendChild(newSlide);
                 closePopup();
@@ -119,5 +238,6 @@
             }
         }
     </script>
+
 </body>
 </html>
