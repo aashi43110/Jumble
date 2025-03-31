@@ -3,73 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jumble</title>
+    <title>Start Session</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            background: url('placeholder.jpg') no-repeat center center fixed;
-            background-size: cover;
+            padding: 20px;
+            background-color: #f8f9fa;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman';
         }
-        .login-box {
-            width: 40%;
-            background: #4f684f;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        .sidebar {
+            width: 250px;
+            background: white;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .slide-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #007BFF;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .slide-item:hover {
+            background: #0056b3;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
             text-align: center;
         }
-        input {
-            width: 80%;
+        .session-info {
+            margin-bottom: 20px;
+        }
+        .join-code {
+            font-size: 24px;
+            font-weight: bold;
+            background: #28a745;
+            color: white;
             padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
+            display: inline-block;
             border-radius: 5px;
         }
-        button {
-            width: 90%;
+        .students-joined {
+            margin-top: 20px;
             padding: 10px;
-            background: #272727;
+            background: white;
+            border-radius: 5px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .start-session {
+            padding: 15px 25px;
+            font-size: 18px;
+            background: #dc3545;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background 0.3s;
         }
-        button:hover {
-            background: #2b3a2d;
+        .start-session:hover {
+            background: #c82333;
+        }
+        iframe {
+            width: 80%;
+            height: 500px;
+            border: none;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="login-box">
-        <h2>Teacher Login</h2>
-        <input type="email" id="email" placeholder="Enter your email" required>
-        <input type="password" id="password" placeholder="Enter your password" required>
-        <button onclick="validateLogin()">Login</button>
-        <p id="error-message" style="color: rgb(255, 195, 195); display: none;">Invalid email or password</p>
+    <div class="sidebar">
+        <h3>Slides</h3>
+        <input type="text" id="slideLink" placeholder="Paste Google Slides link here">
+        <button onclick="loadSlides()">Load Slides</button>
     </div>
-
+    <div class="main-content">
+        <div class="session-info">
+            <p>Join Code:</p>
+            <div class="join-code" id="joinCode"></div>
+        </div>
+        <button class="start-session" onclick="startSession()">Start Session</button>
+        <iframe id="slideFrame" src="" hidden></iframe>
+        <div class="students-joined">
+            <h3>Students Joined</h3>
+            <ul id="studentsList"></ul>
+        </div>
+    </div>
+    
     <script>
-        function validateLogin() {
-            var email = document.getElementById('email').value;
-            var password = document.getElementById('password').value;
-            var errorMessage = document.getElementById('error-message');
-
-            // Example hardcoded credentials (Replace with backend validation)
-            var validEmail = "teacher@example.com";
-            var validPassword = "password123";
-
-            if (email === validEmail && password === validPassword) {
-                window.location.href = 'dashboard.html';
+        let students = [];
+        
+        function generateJoinCode() {
+            let code = Math.random().toString(36).substr(2, 6).toUpperCase();
+            document.getElementById("joinCode").innerText = code;
+        }
+        
+        function startSession() {
+            alert("Session Started!");
+        }
+        
+        function addStudent(name) {
+            students.push(name);
+            let studentList = document.getElementById("studentsList");
+            let studentItem = document.createElement("li");
+            studentItem.innerText = name;
+            studentList.appendChild(studentItem);
+        }
+        
+        function loadSlides() {
+            let slideLink = document.getElementById("slideLink").value;
+            if (slideLink) {
+                let embedLink = slideLink.replace("/edit", "/preview");
+                document.getElementById("slideFrame").src = embedLink;
+                document.getElementById("slideFrame").hidden = false;
             } else {
-                errorMessage.style.display = 'block';
+                alert("Please enter a valid Google Slides link.");
             }
         }
+        
+        // Simulate students joining
+        setTimeout(() => addStudent("Alice"), 2000);
+        setTimeout(() => addStudent("Bob"), 4000);
+        setTimeout(() => addStudent("Charlie"), 6000);
+        
+        generateJoinCode();
     </script>
 </body>
 </html>
