@@ -3,114 +3,409 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Start Session</title>
+    <title>Start Session - Forest Theme</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #9DB79E; /* Deep forest green background */
+            --sidebar-bg: #6F9773; /* Slightly lighter green for sidebar */
+            --content-bg: #F5EFE6; /* Light beige/off-white for content areas */
+            --text-color-dark: #10281A; /* Very dark green for text on light backgrounds */
+            --text-color-light: #E8F5E9; /* Light green/off-white for text on dark backgrounds */
+            --accent-color: #597d5d; /* Muted green for accents/buttons */
+            --accent-hover: #334f37; /* Darker hover for accents */
+            --highlight-color: #739072; /* A slightly brighter green for highlights/active states */
+            --border-color: #3A5A40; /* Border color */
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f8f9fa;
+            padding: 0; /* Remove body padding, handle inside containers */
+            background-color: var(--bg-color);
+            color: var(--text-color-light); /* Default text color for body */
             display: flex;
+            min-height: 100vh; /* Ensure body takes full height */
         }
+
         .sidebar {
-            width: 250px;
-            background: white;
-            padding: 20px;
-            border-right: 1px solid #ddd;
-            height: 100vh;
-            overflow-y: auto;
+            width: 280px; /* Slightly wider sidebar */
+            background: var(--sidebar-bg);
+            padding: 25px;
+            border-right: 2px solid var(--border-color);
+            height: 100vh; /* Fixed height */
+            overflow-y: auto; /* Scroll if slides exceed height */
+            box-sizing: border-box; /* Include padding in width */
+            display: flex;
+            flex-direction: column;
         }
-        .slide-item {
-            padding: 10px;
-            margin: 5px 0;
-            background: #007BFF;
-            color: white;
+
+        .sidebar h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
             text-align: center;
+            color: var(--text-color-light);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        #slidesList {
+            flex-grow: 1; /* Allow list to take available space */
+        }
+
+        .slide-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: var(--accent-color);
+            color: var(--text-color-light);
+            text-align: left; /* Align text left for readability */
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.3s ease, transform 0.1s ease;
+            border: 1px solid transparent; /* Prepare for active state border */
         }
+
         .slide-item:hover {
-            background: #0056b3;
+            background: var(--accent-hover);
+            transform: translateY(-1px); /* Subtle lift effect */
         }
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-            text-align: center;
-        }
-        .session-info {
-            margin-bottom: 20px;
-        }
-        .join-code {
-            font-size: 24px;
+
+        .slide-item.active {
+            background: var(--highlight-color);
             font-weight: bold;
-            background: #28a745;
-            color: white;
-            padding: 10px;
-            display: inline-block;
-            border-radius: 5px;
+            border: 1px solid var(--text-color-light);
+            box-shadow: 0 0 8px rgba(232, 245, 233, 0.5); /* Subtle glow */
         }
+
+        .main-content-wrapper {
+             flex-grow: 1;
+             padding: 30px;
+             display: flex;
+             flex-direction: column;
+             align-items: center; /* Center content horizontally */
+             text-align: center;
+             overflow-y: auto; /* Allow scrolling if content overflows */
+        }
+
+        .main-content {
+            background-color: var(--content-bg);
+            color: var(--text-color-dark);
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            max-width: 600px; /* Control max width */
+            width: 100%; /* Responsive width */
+            box-sizing: border-box;
+            margin-bottom: 30px; /* Space at the bottom */
+        }
+
+        /* Header Bar */
+        .header {
+            background: #6F9773; /* Deep sage green */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        .header a:hover {
+            text-decoration: underline;
+        }
+
+        .session-status {
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            color: var(--accent-hover);
+            font-weight: bold;
+        }
+
+        #sessionStatus.active {
+             color: #2E7D32; /* A brighter green for active status */
+        }
+         #sessionStatus.inactive {
+             color: #C62828; /* A red for inactive/ended status */
+        }
+
+
+        .session-info {
+            margin-bottom: 30px;
+        }
+
+        .session-info p {
+             margin: 5px 0 10px 0;
+             font-size: 1.1em;
+        }
+
+        .join-code-container {
+             background: var(--accent-color);
+             color: var(--text-color-light);
+             padding: 15px 25px;
+             display: inline-block;
+             border-radius: 8px;
+             margin-top: 5px;
+             box-shadow: 0 2px 5px var(--shadow-color);
+        }
+
+        .join-code {
+            font-size: 2.2em; /* Larger code */
+            font-weight: bold;
+            letter-spacing: 2px; /* Space out letters */
+            font-family: 'Courier New', Courier, monospace; /* Monospace for code */
+        }
+
+        .action-button {
+            padding: 15px 35px; /* Larger button */
+            font-size: 1.1em;
+            font-weight: bold;
+            background: var(--accent-color);
+            color: var(--text-color-light);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 10px; /* Space above button */
+            box-shadow: 0 3px 6px var(--shadow-color);
+        }
+
+        .action-button:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 5px 10px var(--shadow-color);
+        }
+
+         .action-button.end-session {
+             background-color: #C62828; /* Red for end session */
+         }
+         .action-button.end-session:hover {
+             background-color: #A12020;
+         }
+
         .students-joined {
-            margin-top: 20px;
-            padding: 10px;
-            background: white;
-            border-radius: 5px;
-            max-width: 300px;
+            margin-top: 30px;
+            padding: 20px;
+            background: #FFFFFF; /* Keep student list background white for contrast */
+            color: var(--text-color-dark);
+            border-radius: 8px;
+            width: 100%; /* Use available width */
+            max-width: 400px; /* Control max width */
             margin-left: auto;
             margin-right: auto;
+            box-shadow: 0 3px 8px var(--shadow-color);
+            text-align: left; /* Align text left inside */
         }
-        .start-session {
-            padding: 15px 25px;
-            font-size: 18px;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
+
+        .students-joined h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+             border-bottom: 1px solid #eee;
+             padding-bottom: 10px;
         }
-        .start-session:hover {
-            background: #c82333;
+
+        #studentsList {
+            list-style: none; /* Remove default bullets */
+            padding: 0;
+            margin: 0;
+            max-height: 150px; /* Limit height and allow scrolling */
+            overflow-y: auto;
+        }
+
+        #studentsList li {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f0f0f0; /* Light separator */
+        }
+        #studentsList li:last-child {
+            border-bottom: none;
         }
     </style>
 </head>
 <body>
+
+
     <div class="sidebar">
-        <h3>Slides</h3>
+        <h3>Slides Overview</h3>
         <div id="slidesList">
-            <div class="slide-item">Slide 1</div>
-            <div class="slide-item">Slide 2</div>
-            <div class="slide-item">Slide 3</div>
+            <!-- Slides will be generated by JS -->
         </div>
     </div>
-    <div class="main-content">
-        <div class="session-info">
-            <p>Join Code:</p>
-            <div class="join-code" id="joinCode">ABC123</div>
+
+    <div class="main-content-wrapper">
+
+        <div class="main-content">
+             <div id="sessionStatus" class="session-status inactive">Session Not Started</div>
+
+            <div class="session-info">
+                <p>Share this code with participants:</p>
+                <div class="join-code-container">
+                     <div class="join-code" id="joinCode">------</div>
+                </div>
+            </div>
+
+            <button id="sessionButton" class="action-button" onclick="toggleSession()">Start Session</button>
+
+            <div class="students-joined">
+                <h3>Participants (<span id="studentCount">0</span>)</h3>
+                <ul id="studentsList">
+                    <!-- Student names will appear here -->
+                </ul>
+            </div>
         </div>
-        <button class="start-session" onclick="startSession()">Start Session</button>
-        <div class="students-joined">
-            <h3>Students Joined</h3>
-            <ul id="studentsList"></ul>
-        </div>
+         <p style="font-size: 0.8em; color: var(--text-color-light); opacity: 0.7;">Select a slide from the sidebar to highlight it.</p>
     </div>
-    
+
     <script>
+        let sessionActive = false;
         let students = [];
-        function startSession() {
-            alert("Session Started!");
+        let studentCounter = 0;
+        let activeSlide = null;
+        const totalSlides = 8; // Example number of slides
+
+        const joinCodeElement = document.getElementById("joinCode");
+        const studentListElement = document.getElementById("studentsList");
+        const studentCountElement = document.getElementById("studentCount");
+        const slidesListElement = document.getElementById("slidesList");
+        const sessionButton = document.getElementById("sessionButton");
+        const sessionStatusElement = document.getElementById("sessionStatus");
+
+        // --- Initialization ---
+        function generateJoinCode(length = 6) {
+            const characters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789'; // Avoid O, 0
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
         }
+
+        function populateSlides(count) {
+            slidesListElement.innerHTML = ''; // Clear existing slides
+            for (let i = 1; i <= count; i++) {
+                const slideItem = document.createElement("div");
+                slideItem.classList.add("slide-item");
+                slideItem.textContent = `Slide ${i}`;
+                slideItem.dataset.slideId = i; // Store slide number
+                slideItem.onclick = () => selectSlide(slideItem);
+                slidesListElement.appendChild(slideItem);
+            }
+        }
+
+        // --- Session Management ---
+        function toggleSession() {
+            sessionActive = !sessionActive;
+            updateSessionUI();
+
+            if (sessionActive) {
+                // Actions when session starts
+                console.log("Session Started!");
+                // Optional: Start student joining simulation or enable real joining
+                 startStudentSimulation(); // Start simulation when session starts
+            } else {
+                // Actions when session ends
+                console.log("Session Ended!");
+                 // Optional: Stop student simulation / clear students / disable joining
+                 stopStudentSimulation();
+                 // Consider resetting student list or keeping it
+            }
+        }
+
+         function updateSessionUI() {
+            if (sessionActive) {
+                sessionButton.textContent = "End Session";
+                sessionButton.classList.add("end-session");
+                sessionStatusElement.textContent = "Session Active";
+                sessionStatusElement.classList.remove("inactive");
+                sessionStatusElement.classList.add("active");
+                // Maybe disable join code display or indicate joining is closed after start?
+            } else {
+                sessionButton.textContent = "Start Session";
+                 sessionButton.classList.remove("end-session");
+                sessionStatusElement.textContent = "Session Ended / Not Started";
+                 sessionStatusElement.classList.remove("active");
+                 sessionStatusElement.classList.add("inactive");
+                 joinCodeElement.textContent = generateJoinCode(); // Generate new code for next session
+            }
+         }
+
+
+        // --- Student Management ---
         function addStudent(name) {
-            students.push(name);
-            let studentList = document.getElementById("studentsList");
-            let studentItem = document.createElement("li");
-            studentItem.innerText = name;
-            studentList.appendChild(studentItem);
+            if (!students.includes(name)) { // Prevent duplicate names (simple check)
+                 students.push(name);
+                 studentCounter++;
+
+                const studentItem = document.createElement("li");
+                studentItem.innerText = name;
+                studentListElement.appendChild(studentItem);
+                studentListElement.scrollTop = studentListElement.scrollHeight; // Scroll to bottom
+
+                studentCountElement.innerText = studentCounter;
+             }
         }
-        // Simulate students joining
-        setTimeout(() => addStudent("Alice"), 2000);
-        setTimeout(() => addStudent("Bob"), 4000);
-        setTimeout(() => addStudent("Charlie"), 6000);
+
+        // --- Slide Management ---
+        function selectSlide(slideElement) {
+             // Remove active class from previously active slide
+             if (activeSlide) {
+                 activeSlide.classList.remove('active');
+             }
+             // Add active class to the clicked slide
+             slideElement.classList.add('active');
+             activeSlide = slideElement;
+             console.log(`Slide ${slideElement.dataset.slideId} selected.`);
+             // Here you could potentially send this info to connected students
+             // if this were a real-time application.
+        }
+
+
+        // --- Simulation (for demonstration) ---
+        let simulationIntervals = [];
+        const studentNames = ["Alice", "Bob", "Charlie", "Diana", "Ethan", "Fiona", "George", "Hannah", "Ian", "Julia"];
+        let currentSimulatedStudentIndex = 0;
+
+        function startStudentSimulation() {
+            stopStudentSimulation(); // Clear any existing simulation timeouts
+
+             // Function to add one student after a delay
+            const addSimulatedStudent = () => {
+                if (currentSimulatedStudentIndex < studentNames.length) {
+                     addStudent(studentNames[currentSimulatedStudentIndex]);
+                     currentSimulatedStudentIndex++;
+                      // Schedule the next student join with a random delay
+                      const delay = Math.random() * 3000 + 1000; // 1 to 4 seconds delay
+                      const timeoutId = setTimeout(addSimulatedStudent, delay);
+                      simulationIntervals.push(timeoutId);
+                 }
+             };
+
+            // Start the simulation chain
+             addSimulatedStudent();
+         }
+
+         function stopStudentSimulation() {
+             simulationIntervals.forEach(timeoutId => clearTimeout(timeoutId));
+             simulationIntervals = [];
+             // Reset index if you want the simulation to restart from the beginning next time
+             // currentSimulatedStudentIndex = 0;
+         }
+
+
+        // --- Initial Page Load Actions ---
+        document.addEventListener('DOMContentLoaded', () => {
+            joinCodeElement.textContent = generateJoinCode();
+            populateSlides(totalSlides);
+            updateSessionUI(); // Set initial button/status text
+        });
+
     </script>
 </body>
 </html>
