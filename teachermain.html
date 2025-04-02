@@ -4,90 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <title>Start Session</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #1a3d2c; /* Dark forest green background */
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f8f9fa;
             display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            background: white;
-            padding: 20px;
-            border-right: 1px solid #ddd;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
             margin: 0;
-            overflow-y: auto;
         }
         .login-box {
-            width: 40%;
-            background: #4f684f;
+            width: 300px;
             padding: 30px;
+            background: #0a1f14; /* Darker forest green */
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
-        .slide-item {
-            padding: 10px;
-            margin: 5px 0;
-            background: #007BFF;
+            text-align: center;
             color: white;
-            text-align: center;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
         }
-        .slide-item:hover {
-            background: #0056b3;
-        }
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-            text-align: center;
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #f5f8f5; /* Light green for the header */
         }
         input {
-            width: 80%;
-            padding: 10px;
+            width: 100%;
+            padding: 12px;
             margin: 10px 0;
             border: 1px solid #3e5d44; /* Dark green border */
-        .session-info {
-            margin-bottom: 20px;
-        }
-        .join-code {
-            font-size: 24px;
-            font-weight: bold;
-            background: #28a745;
-            color: white;
-            padding: 10px;
-            display: inline-block;
             border-radius: 5px;
+            font-size: 16px;
+            background: #1e3a29; /* Very dark green background for input */
+            color: white;
+        }
+        input::placeholder {
+            color: #A1B7A5; /* Light green placeholder */
         }
         button {
             width: 100%;
             padding: 12px;
             background: #2a4a32; /* Dark forest green for the button */
-        .students-joined {
-            margin-top: 20px;
-            padding: 10px;
-            background: white;
-            border-radius: 5px;
-            max-width: 300px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .start-session {
-            padding: 15px 25px;
-            font-size: 18px;
-            background: #dc3545;
-            color: white;
             border: none;
             border-radius: 5px;
+            font-size: 18px;
             cursor: pointer;
             color: white;
-            transition: background 0.3s;
         }
         button:hover {
             background: #1e3a2a; /* Slightly lighter green on hover */
@@ -95,18 +57,11 @@
         .error-message {
             color: #FFCC00;
             display: none;
-        .start-session:hover {
-            background: #c82333;
-        }
-        iframe {
-            width: 80%;
-            height: 500px;
-            border: none;
-            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+
     <div class="login-box">
         <h2>Create Account</h2>
         <input type="text" id="first-name" placeholder="First Name" required>
@@ -115,66 +70,20 @@
         <input type="password" id="password" placeholder="Password" required>
         <button onclick="signUp()">Sign Up</button>
         <p class="error-message" id="error-message">Please fill out all fields correctly.</p>
-    <div class="sidebar">
-        <h3>Slides</h3>
-        <input type="text" id="slideLink" placeholder="Paste Google Slides link here">
-        <button onclick="loadSlides()">Load Slides</button>
     </div>
-    <div class="main-content">
-        <div class="session-info">
-            <p>Join Code:</p>
-            <div class="join-code" id="joinCode"></div>
-        </div>
-        <button class="start-session" onclick="startSession()">Start Session</button>
-        <iframe id="slideFrame" src="" hidden></iframe>
-        <div class="students-joined">
-            <h3>Students Joined</h3>
-            <ul id="studentsList"></ul>
-        </div>
-    </div>
-    
+
     <script>
-        function validateLogin() {
+        function signUp() {
+            var firstName = document.getElementById('first-name').value;
+            var lastName = document.getElementById('last-name').value;
             var email = document.getElementById('email').value;
             var password = document.getElementById('password').value;
             var errorMessage = document.getElementById('error-message');
 
-            // Example hardcoded credentials (Replace with backend validation)
-            var validEmail = "teacher@example.com";
-            var validPassword = "password123";
-
-            if (email === validEmail && password === validPassword) {
-                window.location.href = 'dashboard.html';
-            } else {
+            // Basic validation
+            if (!firstName || !lastName || !email || !password) {
                 errorMessage.style.display = 'block';
                 return;
-        let students = [];
-        
-        function generateJoinCode() {
-            let code = Math.random().toString(36).substr(2, 6).toUpperCase();
-            document.getElementById("joinCode").innerText = code;
-        }
-        
-        function startSession() {
-            alert("Session Started!");
-        }
-        
-        function addStudent(name) {
-            students.push(name);
-            let studentList = document.getElementById("studentsList");
-            let studentItem = document.createElement("li");
-            studentItem.innerText = name;
-            studentList.appendChild(studentItem);
-        }
-        
-        function loadSlides() {
-            let slideLink = document.getElementById("slideLink").value;
-            if (slideLink) {
-                let embedLink = slideLink.replace("/edit", "/preview");
-                document.getElementById("slideFrame").src = embedLink;
-                document.getElementById("slideFrame").hidden = false;
-            } else {
-                alert("Please enter a valid Google Slides link.");
             }
 
             // Save user to localStorage
@@ -189,18 +98,7 @@
                 window.location.href = 'login.html';
             }, 1000);
         }
-        
-        // Simulate students joining
-        setTimeout(() => addStudent("Alice"), 2000);
-        setTimeout(() => addStudent("Bob"), 4000);
-        setTimeout(() => addStudent("Charlie"), 6000);
-        
-        generateJoinCode();
     </script>
+
 </body>
 </html>
-
-
-
-
-
