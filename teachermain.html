@@ -6,8 +6,8 @@
     <title>Sign Up</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #1a3d2c; /* Dark forest green background */
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            background-image: url("backpage.jpg");
             display: flex;
             justify-content: center;
             align-items: center;
@@ -17,7 +17,7 @@
         .login-box {
             width: 300px;
             padding: 30px;
-            background: #0a1f14; /* Darker forest green */
+            background: #4F684F; /* lighter forest green */
             border-radius: 10px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
             text-align: center;
@@ -29,19 +29,21 @@
             color: #f5f8f5; /* Light green for the header */
         }
         input {
-            width: 100%;
+            width: 90%;
             padding: 12px;
             margin: 10px 0;
             border: 1px solid #3e5d44; /* Dark green border */
             border-radius: 5px;
             font-size: 16px;
-            background: #1e3a29; /* Very dark green background for input */
+            background: #ffffff; /* Very dark green background for input */
             color: white;
         }
         input::placeholder {
+            font-family: 'Times New Roman', Times, serif;
             color: #A1B7A5; /* Light green placeholder */
         }
         button {
+            font-family: 'Times New Roman', Times, serif;
             width: 100%;
             padding: 12px;
             background: #2a4a32; /* Dark forest green for the button */
@@ -49,7 +51,7 @@
             border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
-            color: white;
+            color: rgb(255, 255, 255);
         }
         button:hover {
             background: #1e3a2a; /* Slightly lighter green on hover */
@@ -63,7 +65,7 @@
 <body>
 
     <div class="login-box">
-        <h2>Create Account</h2>
+        <h2>sign up to jumble!</h2>
         <input type="text" id="first-name" placeholder="First Name" required>
         <input type="text" id="last-name" placeholder="Last Name" required>
         <input type="email" id="email" placeholder="Email" required>
@@ -79,12 +81,12 @@
             var email = document.getElementById('email').value;
             var password = document.getElementById('password').value;
             var errorMessage = document.getElementById('error-message');
-
+/*
             // Basic validation
             if (!firstName || !lastName || !email || !password) {
                 errorMessage.style.display = 'block';
                 return;
-            }
+            }*/
 
             // Save user to localStorage
             let users = JSON.parse(localStorage.getItem('users')) || [];
@@ -95,7 +97,7 @@
             // Redirect to login page after successful sign up
             setTimeout(function() {
                 alert("Sign up successful! Please log in.");
-                window.location.href = 'login.html';
+                window.location.href = 'dashboard.html';
             }, 1000);
         }
     </script>

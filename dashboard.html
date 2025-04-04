@@ -6,68 +6,42 @@
     <title>Teacher Dashboard</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Georgia, 'Times New Roman', Times, serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background-color: #9DB79E; /* Vibrant sage green */
-            color: #2E4D30; /* Darker green for text */
-        }
-
-        /* Header Bar */
-        .header {
-            background: #6F9773; /* Deep sage green */
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-
-        .header a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-
-        .header a:hover {
-            text-decoration: underline;
+            color: #002501; /* Darker green for text */
         }
 
         /* Main Content */
         .dashboard-container {
-            max-width: 1200px;
-            margin: auto;
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            padding: 20px;
         }
 
         .section {
-            background: #C1D7C0; /* Lighter sage */
             padding: 20px;
             height: 300px;
-            border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             position: relative;
+            width: 100%;
         }
 
         .section-title {
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 10px;
-            color: #2E4D30;
+            color: #ffffff;
         }
 
-        /* Layout for Create Session */
         .create-session-container {
             display: flex;
             align-items: center;
             gap: 20px;
+            border-radius: 5px;
         }
 
-        /* Independent "+" Button */
         .create-button {
             margin-top: 30px;
             width: 300px;
@@ -75,29 +49,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #6F9773;
-            border-radius: 10px;
+            background: #a1ada7;
             cursor: pointer;
             font-size: 40px;
             font-weight: bold;
             color: white;
             flex-shrink: 0;
+            border-radius: 5px;
         }
 
         .create-button:hover {
-            background: #5C8260;
+            background: #7A8B81;
         }
 
-        /* Create Session Box */
-        .create-session-box {
-            flex-grow: 1;
-            background: #C1D7C0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Sessions Grid */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -106,22 +70,40 @@
         }
 
         .session-card {
-            background: #6F9773;
+            background: #364232;
             color: white;
             padding: 15px;
             text-align: center;
-            border-radius: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
             transition: transform 0.2s, background 0.3s;
         }
 
         .session-card:hover {
             transform: scale(1.05);
+            background: #2B3728;
+        }
+
+        .session-card iframe {
+            width: 100%;
+            height: 150px;
+            border: none;
+        }
+
+        .start-session-button {
+            margin-top: 10px;
+            background: #6F9773;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .start-session-button:hover {
             background: #5C8260;
         }
 
-        /* Popup */
         .popup {
             display: none;
             position: fixed;
@@ -130,7 +112,6 @@
             transform: translate(-50%, -50%);
             background: white;
             padding: 30px;
-            border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             text-align: center;
             width: 300px;
@@ -141,26 +122,24 @@
         }
 
         .popup input {
-            width: calc(100% - 16px); /* Matches button width */
+            width: calc(100% - 16px);
             padding: 8px;
             margin-bottom: 15px;
             border: 1px solid #6F9773;
-            border-radius: 5px;
             text-align: center;
-            display: block; /* Ensures proper spacing */
+            display: block;
             margin-left: auto;
             margin-right: auto;
         }
 
         .popup button {
-            width: 100%; /* Makes buttons match input width */
+            width: 100%;
             background: #6F9773;
             color: white;
             border: none;
             padding: 10px;
             margin-top: 10px;
             cursor: pointer;
-            border-radius: 5px;
         }
 
         .popup button:hover {
@@ -170,41 +149,24 @@
     </style>
 </head>
 <body>
-
-    <!-- Header Bar -->
-    <div class="header">
-        <div>
-            <a href="#">Home</a>
-            <a href="#">Sessions</a>
-        </div>
-        <a href="#">Log Out</a>
-    </div>
-
-    <!-- Main Content -->
     <div class="dashboard-container">
-
-        <!-- Create New Session -->
-        <div class="section">
+        <div class="section" style="background: #8B9B91;">
             <div class="section-title">Start a New Session</div>
             <div class="create-session-container">
                 <div class="create-button" onclick="showPopup()">+</div>
-
             </div>
         </div>
 
-        <!-- Recent Sessions -->
-        <div class="section">
+        <div class="section" style="background: #364232;">
             <div class="section-title">Recent Sessions</div>
             <div class="grid-container" id="sessionsGrid"></div>
         </div>
-
     </div>
 
-    <!-- Popup for Upload -->
     <div class="popup" id="uploadPopup">
-        <h2>Upload Your Slide</h2>
-        <input type="file" id="slideUpload" accept=".ppt,.pptx">
-        <button onclick="uploadSlide()">Upload</button>
+        <h2>Enter Google Slides Link</h2>
+        <input type="text" id="slidesLink" placeholder="Paste Google Slides link here">
+        <button onclick="addSlide()">Add</button>
         <button onclick="closePopup()">Cancel</button>
     </div>
 
@@ -216,28 +178,32 @@
         function closePopup() {
             document.getElementById('uploadPopup').style.display = 'none';
         }
-
-        function uploadSlide() {
-            let fileInput = document.getElementById('slideUpload');
-            if (fileInput.files.length > 0) {
-                let file = fileInput.files[0];
-                let fileName = file.name;
+        
+        function addSlide() {
+            let slidesLink = document.getElementById('slidesLink').value;
+            if (slidesLink) {
                 let slidesGrid = document.getElementById('sessionsGrid');
                 let newSlide = document.createElement('div');
                 newSlide.className = 'session-card';
-                newSlide.onclick = function() { window.location.href = 'startsession.html'; };
-
-                let slideTitle = document.createElement('p');
-                slideTitle.innerText = fileName;
-
-                newSlide.appendChild(slideTitle);
+                
+                let iframe = document.createElement('iframe');
+                iframe.src = slidesLink.replace('/edit', '/preview');
+                
+                let button = document.createElement('button');
+                button.className = 'start-session-button';
+                button.innerText = 'Start Session';
+                button.onclick = function() {
+                    window.location.href = 'JoinSession.html';
+                };
+                
+                newSlide.appendChild(iframe);
+                newSlide.appendChild(button);
                 slidesGrid.appendChild(newSlide);
                 closePopup();
             } else {
-                alert('Please select a file to upload');
+                alert('Please enter a valid Google Slides link');
             }
         }
     </script>
-
 </body>
 </html>
