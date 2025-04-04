@@ -1,5 +1,5 @@
 # Ignore environment files
-.env
+/Q&A_Analyzer/.env
 
 # Optional: Ignore specific variations if not covered by the wildcard
 # .env
