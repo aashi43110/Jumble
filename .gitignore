@@ -1,0 +1,13 @@
+# Ignore environment files
+.env*
+
+# Optional: Ignore specific variations if not covered by the wildcard
+# .env
+# .env.local
+# .env.development
+# .env.production
+
+# Optional: If you have a template/example env file that *should* be committed
+# you might explicitly un-ignore it (though it's often better to just
+# not match it with the ignore pattern in the first place, e.g. name it differently)
+# !.env.example
